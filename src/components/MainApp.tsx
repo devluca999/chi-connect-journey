@@ -9,7 +9,7 @@ import { SettingsScreen } from "./screens/SettingsScreen";
 
 export function MainApp() {
   return (
-    <div className="mobile-app bg-background flex flex-col relative">
+    <div className="mobile-app bg-background flex flex-col relative min-h-screen">
       {/* Main Content */}
       <main className="flex-1 pb-24 mobile-scroll overflow-y-auto">
         <Routes>

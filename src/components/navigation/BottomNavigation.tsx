@@ -15,7 +15,7 @@ export function BottomNavigation() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 glass-nav home-indicator-safe border-t border-border/30">
+    <nav className="fixed bottom-0 left-0 right-0 z-[9999] glass-nav home-indicator-safe border-t border-border/30 bg-background/95 backdrop-blur-xl">
       <div className="flex justify-around items-center px-4 py-3">
         {navItems.map(({ path, icon: Icon, label }) => {
           const isActive = location.pathname === path || (path === "/home" && location.pathname === "/");
@@ -25,7 +25,7 @@ export function BottomNavigation() {
               key={path}
               to={path}
               className={cn(
-                "flex flex-col items-center justify-center px-4 py-3 rounded-2xl transition-all duration-300 min-w-[70px] native-button relative",
+                "flex flex-col items-center justify-center px-4 py-3 rounded-2xl transition-all duration-200 min-w-[70px] native-button relative",
                 isActive 
                   ? "text-primary bg-primary/15 shadow-lg scale-105" 
                   : "text-muted-foreground hover:text-foreground hover:bg-hover/50"
