@@ -27,8 +27,15 @@ export function FeedScreen() {
 
   useEffect(() => {
     const allEvents = getEvents();
-    // Filter out events marked as not interested
-    const interestedEvents = allEvents.filter(event => event.rsvpStatus !== 'not_interested');
+    // Filter out events marked as not interested and sort to show featured event first
+    const interestedEvents = allEvents
+      .filter(event => event.rsvpStatus !== 'not_interested')
+      .sort((a, b) => {
+        // Featured events first, then by date
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      });
     setEvents(interestedEvents);
   }, []);
 

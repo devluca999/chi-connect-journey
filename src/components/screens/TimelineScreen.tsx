@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Clock, Users, Plus, ChevronDown, ChevronUp, Calendar, MoreVertical } from "lucide-react";
+import { Clock, Users, Plus, ChevronDown, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AddConnectionForm } from "../forms/AddConnectionForm";
@@ -7,7 +7,7 @@ import { EnhancedCard } from "@/components/ui/enhanced-card";
 import { AnimatedBackground } from "@/components/ui/animated-background";
 import { LongPressMenu } from "@/components/ui/long-press-menu";
 import { motion } from "framer-motion";
-import { Event, Connection, getEvents, getConnections, addConnection } from "@/lib/storage";
+import { Event, Connection, getEvents, getConnections, addConnection, toggleHostFilter } from "@/lib/storage";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
@@ -116,6 +116,17 @@ export function TimelineScreen() {
       eventTitle,
     });
     setConnections([newConnection, ...connections]);
+    
+    // Refresh state to reflect changes
+    const allEvents = getEvents();
+    const rsvpEvents = allEvents.filter(event => event.rsvpStatus === 'rsvp' || event.attended);
+    const today = new Date().toISOString().split('T')[0];
+    const upcoming = rsvpEvents.filter(event => event.date >= today && !event.attended);
+    const past = rsvpEvents.filter(event => event.date < today || event.attended);
+    
+    setUpcomingEvents(upcoming);
+    setPastEvents(past);
+    setAttendedEvents(rsvpEvents);
   };
 
   return (

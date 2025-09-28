@@ -10,6 +10,7 @@ import careerWorkshopImage from '@/assets/career-workshop.jpg';
 import entrepreneurMeetupImage from '@/assets/entrepreneur-meetup.jpg';
 import bookClubImage from '@/assets/book-club.jpg';
 import communityGardenImage from '@/assets/community-garden.jpg';
+import chiTechSummitImage from '@/assets/chi-tech-summit.jpg';
 
 // Local storage utilities for ChiConnect
 
@@ -26,6 +27,8 @@ export interface Event {
   attended?: boolean;
   host?: string;
   category?: string;
+  duration?: string;
+  featured?: boolean;
 }
 
 export interface Connection {
@@ -113,7 +116,33 @@ export const deleteConnection = (connectionId: string) => {
   return updatedConnections;
 };
 
-// Profile Storage
+// Host filter preferences
+export const getHostFilters = (): string[] => {
+  try {
+    const filters = localStorage.getItem('chiconnect-host-filters');
+    return filters ? JSON.parse(filters) : [];
+  } catch {
+    return [];
+  }
+};
+
+export const saveHostFilters = (filters: string[]) => {
+  localStorage.setItem('chiconnect-host-filters', JSON.stringify(filters));
+};
+
+export const toggleHostFilter = (host: string) => {
+  const filters = getHostFilters();
+  const index = filters.indexOf(host);
+  
+  if (index > -1) {
+    filters.splice(index, 1);
+  } else {
+    filters.push(host);
+  }
+  
+  saveHostFilters(filters);
+  return filters;
+};
 export const getUserProfile = (): UserProfile => {
   try {
     const profile = localStorage.getItem('chiconnect-profile');
@@ -293,8 +322,8 @@ function getDefaultConnections(): Connection[] {
       role: 'Product Manager',
       company: 'TechFlow Inc',
       socialHandle: 'sarah_j_pm',
-      eventId: '1',
-      eventTitle: 'Tech Networking Mixer',
+      eventId: 'chi-tech-summit',
+      eventTitle: 'Chi-Tech Collective Black CS Summit',
       addedDate: new Date(Date.now() - 86400000).toISOString(),
       avatar: 'SJ'
     },
@@ -304,8 +333,8 @@ function getDefaultConnections(): Connection[] {
       role: 'Software Engineer',
       company: 'Startup Labs',
       socialHandle: 'marcus_codes',
-      eventId: '1',
-      eventTitle: 'Tech Networking Mixer',
+      eventId: 'chi-tech-summit',
+      eventTitle: 'Chi-Tech Collective Black CS Summit',
       addedDate: new Date(Date.now() - 86400000).toISOString(),
       avatar: 'MW'
     },

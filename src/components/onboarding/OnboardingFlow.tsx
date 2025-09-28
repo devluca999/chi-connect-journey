@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { WelcomeStep } from "./steps/WelcomeStep";
-import { FeedStep } from "./steps/FeedStep";
+import { SummitStep } from "./steps/SummitStep";
 import { TimelineStep } from "./steps/TimelineStep";
 import { ProfileStep } from "./steps/ProfileStep";
 
@@ -12,7 +12,7 @@ interface OnboardingFlowProps {
 
 const steps = [
   { id: 'welcome', component: WelcomeStep },
-  { id: 'feed', component: FeedStep },
+  { id: 'summit', component: SummitStep },
   { id: 'timeline', component: TimelineStep },
   { id: 'profile', component: ProfileStep },
 ];

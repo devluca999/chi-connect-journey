@@ -1,47 +1,68 @@
-import { Users, Sparkles } from "lucide-react";
+import { Users } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function WelcomeStep() {
   return (
     <div className="text-center text-white animate-slide-up">
       <div className="mb-8">
-        <div className="relative inline-block">
-          <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30 glow-primary">
-            <Users className="w-12 h-12 text-white" />
-          </div>
-          <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-secondary rounded-full flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
-          </div>
-        </div>
+        <motion.div 
+          className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30 mx-auto glow-primary"
+          animate={{ 
+            boxShadow: [
+              "0 0 30px rgba(255,255,255,0.3)",
+              "0 0 50px rgba(255,255,255,0.5)",
+              "0 0 30px rgba(255,255,255,0.3)"
+            ]
+          }}
+          transition={{ 
+            duration: 2, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }}
+        >
+          <Users className="w-12 h-12 text-white" />
+        </motion.div>
       </div>
 
-      <h1 className="text-4xl font-bold mb-4 font-heading">
-        Welcome to
-        <br />
-        <span className="bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
-          ChiConnect
-        </span>
-      </h1>
+      <motion.h2 
+        className="text-4xl font-bold mb-6 font-heading"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+      >
+        Find real, trusted opportunities in Chicago.
+      </motion.h2>
 
-      <p className="text-xl text-white/90 mb-8 leading-relaxed">
-        Grow your opportunities through
-        <br />
-        meaningful community connections
-      </p>
+      <motion.p 
+        className="text-xl text-white/90 mb-12 leading-relaxed font-medium"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+      >
+        Made for us, by us.
+      </motion.p>
 
-      <div className="space-y-4 text-left">
-        <div className="flex items-center space-x-3">
-          <div className="w-2 h-2 bg-white rounded-full" />
-          <span className="text-white/90">Discover local events</span>
+      <motion.div
+        className="space-y-4"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.6 }}
+      >
+        <div className="flex items-center justify-center space-x-3 text-white/80">
+          <div className="w-2 h-2 bg-primary rounded-full" />
+          <span className="text-lg">Community-verified events</span>
         </div>
-        <div className="flex items-center space-x-3">
-          <div className="w-2 h-2 bg-white rounded-full" />
-          <span className="text-white/90">Build your network</span>
+        
+        <div className="flex items-center justify-center space-x-3 text-white/80">
+          <div className="w-2 h-2 bg-secondary rounded-full" />
+          <span className="text-lg">Black-owned venues prioritized</span>
         </div>
-        <div className="flex items-center space-x-3">
-          <div className="w-2 h-2 bg-white rounded-full" />
-          <span className="text-white/90">Track your opportunities</span>
+        
+        <div className="flex items-center justify-center space-x-3 text-white/80">
+          <div className="w-2 h-2 bg-accent-foreground rounded-full" />
+          <span className="text-lg">Your networking timeline</span>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
