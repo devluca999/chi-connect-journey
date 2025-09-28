@@ -9,9 +9,9 @@ import { SettingsScreen } from "./screens/SettingsScreen";
 
 export function MainApp() {
   return (
-    <div className="mobile-app bg-background flex flex-col">
+    <div className="mobile-app bg-background flex flex-col relative">
       {/* Main Content */}
-      <main className="flex-1 pb-20 status-bar-safe mobile-scroll">
+      <main className="flex-1 pb-24 mobile-scroll overflow-y-auto">
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/home" element={<HomeScreen />} />
@@ -23,7 +23,7 @@ export function MainApp() {
         </Routes>
       </main>
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation - Always Visible */}
       <BottomNavigation />
     </div>
   );

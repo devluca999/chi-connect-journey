@@ -56,16 +56,16 @@ export function ConnectionsScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="mobile-app bg-gradient-to-b from-background to-muted/20">
       {/* Header */}
-      <header className="safe-area-top px-6 py-6">
-        <div className="flex items-center space-x-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-secondary rounded-full flex items-center justify-center">
-            <Users className="w-5 h-5 text-white" />
+      <header className="px-6 py-6 pt-12">
+        <div className="flex items-center space-x-4 mb-6">
+          <div className="w-12 h-12 bg-gradient-secondary rounded-full flex items-center justify-center shadow-lg">
+            <Users className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold font-heading">Connections</h1>
-            <p className="text-muted-foreground text-sm">
+            <h1 className="text-3xl font-bold font-heading">Connections</h1>
+            <p className="text-muted-foreground text-lg">
               {connections.length} professional contacts
             </p>
           </div>
@@ -73,12 +73,12 @@ export function ConnectionsScreen() {
 
         {/* Search */}
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <Input
             placeholder="Search connections..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 glass"
+            className="pl-12 h-12 glass rounded-2xl text-lg"
           />
         </div>
       </header>
@@ -86,27 +86,27 @@ export function ConnectionsScreen() {
       {/* Connections List */}
       <div className="px-6 pb-6">
         {filteredConnections.length === 0 ? (
-          <div className="glass-card text-center py-12">
+          <div className="glass-card native-card text-center py-16">
             {connections.length === 0 ? (
               <>
-                <Users className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">No connections yet</h3>
-                <p className="text-muted-foreground">
+                <Users className="w-20 h-20 text-muted-foreground mx-auto mb-6" />
+                <h3 className="text-xl font-semibold mb-3">No connections yet</h3>
+                <p className="text-muted-foreground text-lg">
                   Add connections from events in your Timeline
                 </p>
               </>
             ) : (
               <>
-                <Search className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-semibold mb-2">No matches found</h3>
-                <p className="text-muted-foreground">
+                <Search className="w-20 h-20 text-muted-foreground mx-auto mb-6" />
+                <h3 className="text-xl font-semibold mb-3">No matches found</h3>
+                <p className="text-muted-foreground text-lg">
                   Try a different search term
                 </p>
               </>
             )}
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-6">
             {filteredConnections.map((connection, index) => (
               <ConnectionCard
                 key={connection.id}
@@ -140,71 +140,81 @@ function ConnectionCard({ connection, onDelete, className }: ConnectionCardProps
   };
 
   return (
-    <div className={cn("glass-card", className)}>
-      <div className="flex items-start justify-between">
-        <div className="flex-1">
+    <div className={cn("glass-card native-card interactive-enhanced", className)}>
+      <div className="flex items-start space-x-4">
+        {/* Avatar */}
+        <div className="flex-shrink-0">
+          <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-white text-lg font-bold shadow-lg">
+            {connection.avatar || connection.name.charAt(0)}
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
           {/* Name and Role */}
-          <div className="mb-3">
-            <h3 className="font-semibold text-foreground mb-1">{connection.name}</h3>
-            <p className="text-sm text-muted-foreground">{connection.role}</p>
+          <div className="mb-4">
+            <h3 className="font-bold text-foreground text-lg mb-1">{connection.name}</h3>
+            <p className="text-muted-foreground text-base">{connection.role}</p>
             {connection.company && (
-              <div className="flex items-center mt-1">
-                <Building className="w-3 h-3 mr-1 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">{connection.company}</span>
+              <div className="flex items-center mt-2">
+                <Building className="w-4 h-4 mr-2 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">{connection.company}</span>
               </div>
             )}
           </div>
 
           {/* Event and Date */}
-          <div className="space-y-2 mb-4">
-            <Badge variant="secondary" className="text-xs">
-              <Calendar className="w-3 h-3 mr-1" />
+          <div className="space-y-3 mb-4">
+            <Badge variant="secondary" className="text-sm px-3 py-1">
+              <Calendar className="w-4 h-4 mr-2" />
               {connection.eventTitle}
             </Badge>
-              <p className="text-xs text-muted-foreground">
-                Connected on {new Date(connection.addedDate).toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric'
-                })}
-              </p>
+            <p className="text-sm text-muted-foreground">
+              Connected on {new Date(connection.addedDate).toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+              })}
+            </p>
           </div>
 
-          {/* Social Handle */}
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleSocialClick}
-            className="text-xs"
-          >
-            <ExternalLink className="w-3 h-3 mr-1" />
-            @{connection.socialHandle.replace('@', '')}
-          </Button>
-        </div>
-
-        {/* Delete Button */}
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive hover:bg-destructive/10">
-              <Trash2 className="w-4 h-4" />
+          {/* Actions */}
+          <div className="flex items-center justify-between">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSocialClick}
+              className="native-button"
+            >
+              <ExternalLink className="w-4 h-4 mr-2" />
+              @{connection.socialHandle.replace('@', '')}
             </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete Connection</AlertDialogTitle>
-              <AlertDialogDescription>
-                Are you sure you want to remove {connection.name} from your connections? 
-                This action cannot be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={onDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+
+            {/* Delete Button */}
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive hover:bg-destructive/10 native-button">
+                  <Trash2 className="w-5 h-5" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="native-modal">
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete Connection</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to remove {connection.name} from your connections? 
+                    This action cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="native-button">Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={onDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90 native-button">
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        </div>
       </div>
     </div>
   );

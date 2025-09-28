@@ -12,13 +12,18 @@ interface EventOverlayProps {
   onRSVP: (eventId: string, status: Event['rsvpStatus']) => void;
 }
 
-// Mock RSVP data for demonstration
+// Mock RSVP data for demonstration - Diverse Chicago community
 const mockRSVPs = [
-  { id: 1, name: "Sarah Johnson", avatar: "SJ", comment: "Can't wait for this!" },
-  { id: 2, name: "Marcus Williams", avatar: "MW", comment: "See you all there 🎉" },
-  { id: 3, name: "Aisha Patel", avatar: "AP", comment: "This looks amazing" },
-  { id: 4, name: "David Chen", avatar: "DC", comment: "First time attending!" },
-  { id: 5, name: "Maya Rodriguez", avatar: "MR", comment: "Love the venue choice" },
+  { id: 1, name: "Sarah Johnson", avatar: "SJ", comment: "Can't wait for this networking opportunity! 🎉" },
+  { id: 2, name: "Marcus Williams", avatar: "MW", comment: "See you all there - excited to connect!" },
+  { id: 3, name: "Aisha Patel", avatar: "AP", comment: "This looks amazing, perfect for my startup goals" },
+  { id: 4, name: "David Chen", avatar: "DC", comment: "First time attending - looking forward to it!" },
+  { id: 5, name: "Maya Rodriguez", avatar: "MR", comment: "Love the venue choice, great for conversations" },
+  { id: 6, name: "Jordan Thompson", avatar: "JT", comment: "Ready to learn and network! 💪" },
+  { id: 7, name: "Keisha Washington", avatar: "KW", comment: "Chicago's tech scene is growing so fast! 🚀" },
+  { id: 8, name: "Alex Kim", avatar: "AK", comment: "Bringing my business cards and big energy!" },
+  { id: 9, name: "Tamara Jackson", avatar: "TJ", comment: "Always excited for community events like this" },
+  { id: 10, name: "Carlos Mendez", avatar: "CM", comment: "Perfect timing for my career transition!" }
 ];
 
 export function EventOverlay({ event, isOpen, onClose, onRSVP }: EventOverlayProps) {
@@ -137,7 +142,7 @@ export function EventOverlay({ event, isOpen, onClose, onRSVP }: EventOverlayPro
 
                     <div className="flex items-center text-sm text-muted-foreground">
                       <Users className="w-4 h-4 mr-3 text-primary" />
-                      {mockRSVPs.length + 15} people attending
+                      {mockRSVPs.length + Math.floor(Math.random() * 25) + 15} people attending
                     </div>
                   </div>
 
@@ -169,8 +174,8 @@ export function EventOverlay({ event, isOpen, onClose, onRSVP }: EventOverlayPro
                     Who's Going
                   </h3>
                   
-                  <div className="space-y-3 max-h-40 overflow-y-auto">
-                    {mockRSVPs.map((rsvp, index) => (
+                  <div className="space-y-3 max-h-40 overflow-y-auto mobile-scroll">
+                    {mockRSVPs.slice(0, 8).map((rsvp, index) => (
                       <motion.div
                         key={rsvp.id}
                         className="flex items-start space-x-3"
@@ -178,15 +183,28 @@ export function EventOverlay({ event, isOpen, onClose, onRSVP }: EventOverlayPro
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.4 + (index * 0.1) }}
                       >
-                        <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                        <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-lg">
                           {rsvp.avatar}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-medium text-foreground">{rsvp.name}</p>
-                          <p className="text-xs text-muted-foreground truncate">{rsvp.comment}</p>
+                          <p className="text-xs text-muted-foreground line-clamp-2">{rsvp.comment}</p>
                         </div>
                       </motion.div>
                     ))}
+                    
+                    {mockRSVPs.length > 8 && (
+                      <motion.div
+                        className="text-center pt-2"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.2 }}
+                      >
+                        <p className="text-xs text-muted-foreground">
+                          +{mockRSVPs.length - 8} more people attending
+                        </p>
+                      </motion.div>
+                    )}
                   </div>
                 </motion.div>
               </div>
