@@ -64,6 +64,8 @@ export default {
         "gradient-secondary": "var(--gradient-secondary)",
         "gradient-hero": "var(--gradient-hero)",
         "gradient-glass": "var(--gradient-glass)",
+        "radial-primary": "radial-gradient(circle at 70% 30%, hsl(var(--primary) / 0.15) 0%, transparent 60%)",
+        "radial-secondary": "radial-gradient(circle at 30% 70%, hsl(var(--secondary) / 0.15) 0%, transparent 60%)",
       },
       boxShadow: {
         glass: "var(--shadow-glass)",
@@ -129,6 +131,52 @@ export default {
             transform: "scale(1) translateY(0)",
           },
         },
+        "slideInFromLeft": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(-30px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        "slideInFromRight": {
+          "0%": {
+            opacity: "0",
+            transform: "translateX(30px)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        "scaleIn": {
+          "0%": {
+            opacity: "0",
+            transform: "scale(0.9)",
+          },
+          "100%": {
+            opacity: "1",
+            transform: "scale(1)",
+          },
+        },
+        "float": {
+          "0%, 100%": {
+            transform: "translateY(0px)",
+          },
+          "50%": {
+            transform: "translateY(-10px)",
+          },
+        },
+        "pulseGlow": {
+          "0%": {
+            boxShadow: "0 0 20px hsl(var(--primary) / 0.4)",
+          },
+          "100%": {
+            boxShadow: "0 0 30px hsl(var(--primary) / 0.6)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -136,6 +184,11 @@ export default {
         "slide-up": "slide-up 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards",
         "fade-in": "fade-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards",
         "bounce-in": "bounce-in 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards",
+        "slide-in-left": "slideInFromLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "slide-in-right": "slideInFromRight 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "scale-in": "scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards",
+        "float": "float 6s ease-in-out infinite",
+        "pulse-glow": "pulseGlow 2s ease-in-out infinite alternate",
       },
     },
   },

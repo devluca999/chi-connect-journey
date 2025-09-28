@@ -3,6 +3,9 @@ import { Clock, Users, Plus, ChevronDown, ChevronUp, Calendar } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AddConnectionForm } from "../forms/AddConnectionForm";
+import { EnhancedCard } from "@/components/ui/enhanced-card";
+import { AnimatedBackground } from "@/components/ui/animated-background";
+import { motion } from "framer-motion";
 import { Event, Connection, getEvents, getConnections, addConnection } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 
@@ -43,28 +46,44 @@ export function TimelineScreen() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <AnimatedBackground variant="radial-secondary" className="min-h-screen">
       {/* Header */}
-      <header className="safe-area-top px-6 py-6">
+      <motion.header 
+        className="safe-area-top px-6 py-6"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      >
         <div className="flex items-center space-x-3 mb-2">
-          <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
+          <motion.div 
+            className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center"
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          >
             <Clock className="w-5 h-5 text-white" />
-          </div>
+          </motion.div>
           <h1 className="text-2xl font-bold font-heading">Your Timeline</h1>
         </div>
         <p className="text-muted-foreground">Track your networking journey</p>
-      </header>
+      </motion.header>
 
       {/* Timeline Content */}
       <div className="px-6 pb-6">
         {attendedEvents.length === 0 ? (
-          <div className="glass-card text-center py-12">
-            <Clock className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No events yet</h3>
-            <p className="text-muted-foreground mb-4">
-              RSVP to events in the Feed to start building your timeline
-            </p>
-          </div>
+          <EnhancedCard variant="interactive">
+            <div className="text-center py-12">
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <Clock className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+              </motion.div>
+              <h3 className="text-lg font-semibold mb-2">No events yet</h3>
+              <p className="text-muted-foreground mb-4">
+                RSVP to events in the Feed to start building your timeline
+              </p>
+            </div>
+          </EnhancedCard>
         ) : (
           <div className="space-y-4">
             {attendedEvents.map((event, index) => {
@@ -79,17 +98,14 @@ export function TimelineScreen() {
                   isExpanded={isExpanded}
                   onToggleExpansion={() => toggleEventExpansion(event.id)}
                   onAddConnection={(connectionData) => handleAddConnection(event.id, event.title, connectionData)}
-                  className={cn(
-                    "animate-slide-up",
-                    `[animation-delay:${index * 100}ms]`
-                  )}
+                  delay={index * 0.1}
                 />
               );
             })}
           </div>
         )}
       </div>
-    </div>
+    </AnimatedBackground>
   );
 }
 
@@ -99,7 +115,7 @@ interface TimelineEventCardProps {
   isExpanded: boolean;
   onToggleExpansion: () => void;
   onAddConnection: (connectionData: Omit<Connection, 'id' | 'eventId' | 'eventTitle' | 'addedDate'>) => void;
-  className?: string;
+  delay?: number;
 }
 
 function TimelineEventCard({ 
@@ -108,49 +124,84 @@ function TimelineEventCard({
   isExpanded, 
   onToggleExpansion, 
   onAddConnection,
-  className 
+  delay = 0
 }: TimelineEventCardProps) {
   return (
-    <div className={cn("glass-card", className)}>
+    <EnhancedCard variant="meshy" delay={delay}>
       {/* Event Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex-1">
-          <h3 className="font-semibold text-foreground mb-1">{event.title}</h3>
-          <div className="flex items-center text-sm text-muted-foreground">
+          <motion.h3 
+            className="font-semibold text-foreground mb-1"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: delay + 0.1, duration: 0.4 }}
+          >
+            {event.title}
+          </motion.h3>
+          <motion.div 
+            className="flex items-center text-sm text-muted-foreground"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: delay + 0.2, duration: 0.4 }}
+          >
             <Calendar className="w-4 h-4 mr-1" />
             {event.date}
-          </div>
+          </motion.div>
         </div>
-        <div className="text-right">
+        <motion.div 
+          className="text-right"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: delay + 0.3, duration: 0.4 }}
+        >
           <span className="text-xs text-muted-foreground">
             {event.rsvpStatus === 'rsvp' ? 'RSVP\'d' : 'Attended'}
           </span>
-        </div>
+        </motion.div>
       </div>
 
       {/* Connections Summary */}
-      <div 
-        className="flex items-center justify-between p-3 bg-muted/30 rounded-lg cursor-pointer hover:bg-muted/40 transition-colors"
+      <motion.div 
+        className="flex items-center justify-between p-3 bg-muted/30 rounded-lg cursor-pointer hover:bg-muted/40 transition-colors interactive-enhanced"
         onClick={onToggleExpansion}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: delay + 0.4, duration: 0.4 }}
+        whileHover={{ scale: 1.01 }}
+        whileTap={{ scale: 0.99 }}
       >
         <div className="flex items-center text-sm text-muted-foreground">
           <Users className="w-4 h-4 mr-2" />
           {connections.length} connection{connections.length !== 1 ? 's' : ''} added
         </div>
-        {isExpanded ? (
-          <ChevronUp className="w-4 h-4 text-muted-foreground" />
-        ) : (
+        <motion.div
+          animate={{ rotate: isExpanded ? 180 : 0 }}
+          transition={{ duration: 0.3 }}
+        >
           <ChevronDown className="w-4 h-4 text-muted-foreground" />
-        )}
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Expanded Connections */}
       {isExpanded && (
-        <div className="mt-4 space-y-3 animate-slide-up">
+        <motion.div 
+          className="mt-4 space-y-3"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.3 }}
+        >
           {connections.length > 0 && (
             <div className="space-y-2">
-              {connections.map((connection) => (
-                <div key={connection.id} className="flex items-center justify-between p-3 bg-card rounded-lg border">
+              {connections.map((connection, index) => (
+                <motion.div 
+                  key={connection.id} 
+                  className="flex items-center justify-between p-3 bg-card rounded-lg border interactive-enhanced"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1, duration: 0.3 }}
+                >
                   <div>
                     <p className="font-medium text-sm">{connection.name}</p>
                     <p className="text-xs text-muted-foreground">{connection.role}</p>
@@ -161,7 +212,7 @@ function TimelineEventCard({
                   <div className="text-xs text-muted-foreground">
                     @{connection.socialHandle}
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           )}
@@ -169,10 +220,16 @@ function TimelineEventCard({
           {/* Add Connection Button */}
           <Dialog>
             <DialogTrigger asChild>
-              <Button size="sm" variant="outline" className="w-full">
-                <Plus className="w-4 h-4 mr-1" />
-                Add Connection
-              </Button>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.3 }}
+              >
+                <Button size="sm" variant="outline" className="w-full interactive-enhanced">
+                  <Plus className="w-4 h-4 mr-1" />
+                  Add Connection
+                </Button>
+              </motion.div>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -181,8 +238,8 @@ function TimelineEventCard({
               <AddConnectionForm onSubmit={onAddConnection} />
             </DialogContent>
           </Dialog>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </EnhancedCard>
   );
 }
