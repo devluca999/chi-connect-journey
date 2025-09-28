@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { BottomNavigation } from "./navigation/BottomNavigation";
+import { HomeScreen } from "./screens/HomeScreen";
 import { FeedScreen } from "./screens/FeedScreen";
 import { TimelineScreen } from "./screens/TimelineScreen";
 import { ConnectionsScreen } from "./screens/ConnectionsScreen";
@@ -12,7 +13,8 @@ export function MainApp() {
       {/* Main Content */}
       <main className="flex-1 pb-20">
         <Routes>
-          <Route path="/" element={<FeedScreen />} />
+          <Route path="/" element={<HomeScreen />} />
+          <Route path="/home" element={<HomeScreen />} />
           <Route path="/feed" element={<FeedScreen />} />
           <Route path="/timeline" element={<TimelineScreen />} />
           <Route path="/connections" element={<ConnectionsScreen />} />

@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { SplashScreen } from "./components/splash/SplashScreen";
 import { OnboardingFlow } from "./components/onboarding/OnboardingFlow";
 import { MainApp } from "./components/MainApp";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
@@ -11,12 +12,25 @@ import { ThemeProvider } from "./components/theme/ThemeProvider";
 const queryClient = new QueryClient();
 
 const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean | null>(null);
 
   useEffect(() => {
     const completed = localStorage.getItem('chiconnect-onboarding-completed');
     setHasCompletedOnboarding(completed === 'true');
   }, []);
+
+  const handleSplashComplete = () => {
+    setShowSplash(false);
+  };
+
+  if (showSplash) {
+    return (
+      <ThemeProvider defaultTheme="light" storageKey="chiconnect-theme">
+        <SplashScreen onComplete={handleSplashComplete} />
+      </ThemeProvider>
+    );
+  }
 
   if (hasCompletedOnboarding === null) {
     return (

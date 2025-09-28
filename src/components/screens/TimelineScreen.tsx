@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
-import { Clock, Users, Plus, ChevronDown, ChevronUp, Calendar } from "lucide-react";
+import { Clock, Users, Plus, ChevronDown, ChevronUp, Calendar, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { AddConnectionForm } from "../forms/AddConnectionForm";
 import { EnhancedCard } from "@/components/ui/enhanced-card";
 import { AnimatedBackground } from "@/components/ui/animated-background";
+import { LongPressMenu } from "@/components/ui/long-press-menu";
 import { motion } from "framer-motion";
 import { Event, Connection, getEvents, getConnections, addConnection } from "@/lib/storage";
+import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 export function TimelineScreen() {
@@ -34,6 +36,60 @@ export function TimelineScreen() {
       newExpanded.add(eventId);
     }
     setExpandedEvents(newExpanded);
+  };
+
+  const handleViewConnections = (eventId: string) => {
+    const eventConnections = getEventConnections(eventId);
+    if (eventConnections.length === 0) {
+      toast({
+        title: "No connections yet",
+        description: "Add some connections from this event to view them here."
+      });
+    } else {
+      // Toggle expansion to show connections
+      toggleEventExpansion(eventId);
+    }
+  };
+
+  const handleAddNotes = (event: Event) => {
+    toast({
+      title: "Coming soon",
+      description: "Event notes and takeaways feature will be available soon!"
+    });
+  };
+
+  const handleShareEvent = (event: Event) => {
+    if (navigator.share) {
+      navigator.share({
+        title: event.title,
+        text: `Check out this event: ${event.title}`,
+        url: window.location.href
+      });
+    } else {
+      // Fallback to clipboard
+      navigator.clipboard.writeText(`${event.title} - ${event.location} on ${event.date}`);
+      toast({
+        title: "Event details copied",
+        description: "Event information has been copied to clipboard."
+      });
+    }
+  };
+
+  const handleRemoveEvent = (eventId: string) => {
+    // Remove from RSVP list (this would update the events in storage)
+    const events = getEvents();
+    const updatedEvents = events.map(event => 
+      event.id === eventId ? { ...event, rsvpStatus: undefined } : event
+    );
+    localStorage.setItem('chiconnect-events', JSON.stringify(updatedEvents));
+    
+    const updatedAttendedEvents = updatedEvents.filter(event => event.attended || event.rsvpStatus === 'rsvp');
+    setAttendedEvents(updatedAttendedEvents);
+    
+    toast({
+      title: "Event removed",
+      description: "Event has been removed from your timeline."
+    });
   };
 
   const handleAddConnection = async (eventId: string, eventTitle: string, connectionData: Omit<Connection, 'id' | 'eventId' | 'eventTitle' | 'addedDate'>) => {
@@ -91,15 +147,22 @@ export function TimelineScreen() {
               const isExpanded = expandedEvents.has(event.id);
               
               return (
-                <TimelineEventCard
+                <LongPressMenu
                   key={event.id}
-                  event={event}
-                  connections={eventConnections}
-                  isExpanded={isExpanded}
-                  onToggleExpansion={() => toggleEventExpansion(event.id)}
-                  onAddConnection={(connectionData) => handleAddConnection(event.id, event.title, connectionData)}
-                  delay={index * 0.1}
-                />
+                  onViewConnections={() => handleViewConnections(event.id)}
+                  onAddNotes={() => handleAddNotes(event)}
+                  onShare={() => handleShareEvent(event)}
+                  onRemove={event.rsvpStatus === 'rsvp' && !event.attended ? () => handleRemoveEvent(event.id) : undefined}
+                >
+                  <TimelineEventCard
+                    event={event}
+                    connections={eventConnections}
+                    isExpanded={isExpanded}
+                    onToggleExpansion={() => toggleEventExpansion(event.id)}
+                    onAddConnection={(connectionData) => handleAddConnection(event.id, event.title, connectionData)}
+                    delay={index * 0.1}
+                  />
+                </LongPressMenu>
               );
             })}
           </div>
