@@ -181,7 +181,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
                     opacity: [0.6, 1, 0.6]
                   }}
                   transition={{ 
-                    duration: 1, 
+                    duration: 3, 
                     repeat: Infinity, 
                     delay: i * 0.2,
                     ease: "easeInOut"
