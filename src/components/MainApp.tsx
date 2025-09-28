@@ -9,9 +9,9 @@ import { SettingsScreen } from "./screens/SettingsScreen";
 
 export function MainApp() {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="mobile-app bg-background flex flex-col">
       {/* Main Content */}
-      <main className="flex-1 pb-20">
+      <main className="flex-1 pb-20 status-bar-safe mobile-scroll">
         <Routes>
           <Route path="/" element={<HomeScreen />} />
           <Route path="/home" element={<HomeScreen />} />

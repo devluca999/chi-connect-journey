@@ -13,10 +13,10 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     // Show content after initial mount
     const timer1 = setTimeout(() => setShowContent(true), 100);
     
-    // Auto redirect after 2 seconds
+    // Auto redirect after 1 second
     const timer2 = setTimeout(() => {
       onComplete();
-    }, 2500);
+    }, 1000);
 
     return () => {
       clearTimeout(timer1);

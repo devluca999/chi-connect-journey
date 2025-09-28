@@ -380,12 +380,76 @@
     }
   }
   
-  /* Mobile-first utilities */
+  /* Mobile-first utilities - Native iOS/Android feel */
+  .mobile-app {
+    @apply min-h-screen overflow-hidden;
+    /* Native app feel */
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    /* Full viewport height */
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+  
   .safe-area-bottom {
-    padding-bottom: env(safe-area-inset-bottom, 1rem);
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
   }
   
   .safe-area-top {
-    padding-top: env(safe-area-inset-top, 1rem);
+    padding-top: max(env(safe-area-inset-top), 1rem);
+  }
+  
+  /* Native-style buttons */
+  .native-button {
+    @apply px-6 py-3 rounded-full font-semibold transition-all duration-200;
+    @apply active:scale-95 transform-gpu;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  /* Native-style cards */
+  .native-card {
+    @apply glass-card interactive-enhanced;
+    @apply rounded-2xl border-0 shadow-lg;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  
+  /* Mobile scrolling */
+  .mobile-scroll {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .mobile-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Status bar safe area */
+  .status-bar-safe {
+    padding-top: max(env(safe-area-inset-top), 44px);
+  }
+  
+  /* Home indicator safe area */
+  .home-indicator-safe {
+    padding-bottom: max(env(safe-area-inset-bottom), 34px);
+  }
+  
+  /* Native overlay */
+  .native-overlay {
+    @apply fixed inset-0 z-50;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  /* Native modal */
+  .native-modal {
+    @apply glass-card;
+    @apply rounded-t-3xl rounded-b-none;
+    max-height: 90vh;
+    max-height: 90dvh;
   }
 }

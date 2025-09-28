@@ -14,8 +14,8 @@ export function BottomNavigation() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 glass-nav safe-area-bottom">
-      <div className="flex justify-around items-center px-2 py-2">
+    <nav className="fixed bottom-0 left-0 right-0 glass-nav home-indicator-safe">
+      <div className="flex justify-around items-center px-4 py-3">
         {navItems.map(({ path, icon: Icon, label }) => {
           const isActive = location.pathname === path || (path === "/home" && location.pathname === "/");
           
@@ -24,22 +24,22 @@ export function BottomNavigation() {
               key={path}
               to={path}
               className={cn(
-                "flex flex-col items-center justify-center px-3 py-2 rounded-xl transition-all duration-300 min-w-[60px] interactive-enhanced",
+                "flex flex-col items-center justify-center px-4 py-3 rounded-2xl transition-all duration-300 min-w-[70px] native-button",
                 isActive 
-                  ? "text-primary bg-primary/10 shadow-lg scale-105" 
-                  : "text-muted-foreground hover:text-foreground hover:bg-hover"
+                  ? "text-primary bg-primary/15 shadow-lg scale-105 pulse-glow" 
+                  : "text-muted-foreground hover:text-foreground hover:bg-hover/50"
               )}
             >
               <Icon 
                 className={cn(
-                  "w-5 h-5 mb-1 transition-transform duration-200",
-                  isActive && "scale-110"
+                  "w-6 h-6 mb-1 transition-transform duration-300",
+                  isActive && "scale-110 drop-shadow-lg"
                 )} 
               />
               <span 
                 className={cn(
-                  "text-xs font-medium transition-all duration-200",
-                  isActive ? "opacity-100" : "opacity-70"
+                  "text-xs font-semibold transition-all duration-300",
+                  isActive ? "opacity-100 text-primary" : "opacity-70"
                 )}
               >
                 {label}

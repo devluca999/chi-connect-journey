@@ -48,28 +48,28 @@ export function HomeScreen() {
   };
 
   return (
-    <AnimatedBackground variant="radial-primary" className="min-h-screen">
+    <AnimatedBackground variant="radial-primary" className="mobile-app">
       {/* Header */}
       <motion.header 
-        className="safe-area-top px-6 py-6"
+        className="px-6 py-6 pt-12"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-3xl font-bold font-heading bg-gradient-primary bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold font-heading bg-gradient-primary bg-clip-text text-transparent">
               Welcome back
             </h1>
-            <p className="text-muted-foreground">Ready to connect?</p>
+            <p className="text-muted-foreground text-lg">Ready to connect?</p>
           </div>
           
           <motion.div 
-            className="w-12 h-12 bg-gradient-secondary rounded-full flex items-center justify-center"
+            className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center shadow-lg"
             animate={{ rotate: [0, 360] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
           >
-            <Sparkles className="w-6 h-6 text-white" />
+            <Sparkles className="w-8 h-8 text-white" />
           </motion.div>
         </div>
       </motion.header>
@@ -88,62 +88,62 @@ export function HomeScreen() {
         </motion.div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
-          <EnhancedCard variant="meshy" delay={0.3}>
+        <div className="grid grid-cols-2 gap-6 mb-8">
+          <EnhancedCard variant="meshy" delay={0.3} className="native-card">
             <div className="text-center">
               <motion.div
-                className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-3"
+                className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               >
-                <Calendar className="w-6 h-6 text-white" />
+                <Calendar className="w-8 h-8 text-white" />
               </motion.div>
               <motion.p 
-                className="text-3xl font-bold text-foreground"
+                className="text-4xl font-bold text-foreground"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5, duration: 0.6, type: "spring" }}
               >
                 {stats.eventsAttended}
               </motion.p>
-              <p className="text-sm text-muted-foreground">Events Attended</p>
+              <p className="text-sm text-muted-foreground font-medium">Events Attended</p>
             </div>
           </EnhancedCard>
 
-          <EnhancedCard variant="meshy" delay={0.4}>
+          <EnhancedCard variant="meshy" delay={0.4} className="native-card">
             <div className="text-center">
               <motion.div
-                className="w-12 h-12 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto mb-3"
+                className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
                 animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
               >
-                <Users className="w-6 h-6 text-white" />
+                <Users className="w-8 h-8 text-white" />
               </motion.div>
               <motion.p 
-                className="text-3xl font-bold text-foreground"
+                className="text-4xl font-bold text-foreground"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.6, duration: 0.6, type: "spring" }}
               >
                 {stats.connectionsMade}
               </motion.p>
-              <p className="text-sm text-muted-foreground">Connections Made</p>
+              <p className="text-sm text-muted-foreground font-medium">Connections Made</p>
             </div>
           </EnhancedCard>
         </div>
 
         {/* Upcoming RSVPs */}
-        <EnhancedCard variant="interactive" delay={0.5}>
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold flex items-center">
-              <Clock className="w-5 h-5 mr-2 text-primary" />
+        <EnhancedCard variant="interactive" delay={0.5} className="native-card">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-semibold flex items-center">
+              <Clock className="w-6 h-6 mr-3 text-primary" />
               Upcoming RSVPs
             </h3>
             <Button 
               variant="ghost" 
               size="sm"
               onClick={() => navigate('/timeline')}
-              className="text-primary hover:text-primary hover:bg-primary/10"
+              className="text-primary hover:text-primary hover:bg-primary/10 native-button"
             >
               View All
               <ChevronRight className="w-4 h-4 ml-1" />
@@ -159,10 +159,10 @@ export function HomeScreen() {
             >
               <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
               <p className="text-muted-foreground mb-4">No upcoming events</p>
-              <Button 
+                <Button 
                 size="sm"
                 onClick={() => navigate('/feed')}
-                className="bg-gradient-primary"
+                className="bg-gradient-primary native-button"
               >
                 Discover Events
               </Button>
@@ -196,27 +196,27 @@ export function HomeScreen() {
 
         {/* Quick Actions */}
         <motion.div 
-          className="grid grid-cols-2 gap-4 mt-6"
+          className="grid grid-cols-2 gap-6 mt-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
         >
           <Button
             variant="outline"
-            className="h-16 flex flex-col items-center justify-center space-y-1 interactive-enhanced border-primary/20 hover:border-primary/40"
+            className="h-20 flex flex-col items-center justify-center space-y-2 interactive-enhanced border-primary/20 hover:border-primary/40 native-button"
             onClick={() => navigate('/feed')}
           >
-            <Calendar className="w-5 h-5 text-primary" />
-            <span className="text-xs">Discover Events</span>
+            <Calendar className="w-6 h-6 text-primary" />
+            <span className="text-sm font-medium">Discover Events</span>
           </Button>
 
           <Button
             variant="outline"
-            className="h-16 flex flex-col items-center justify-center space-y-1 interactive-enhanced border-secondary/20 hover:border-secondary/40"
+            className="h-20 flex flex-col items-center justify-center space-y-2 interactive-enhanced border-secondary/20 hover:border-secondary/40 native-button"
             onClick={() => navigate('/connections')}
           >
-            <Users className="w-5 h-5 text-secondary" />
-            <span className="text-xs">My Network</span>
+            <Users className="w-6 h-6 text-secondary" />
+            <span className="text-sm font-medium">My Network</span>
           </Button>
         </motion.div>
       </div>

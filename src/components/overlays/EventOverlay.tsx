@@ -40,7 +40,7 @@ export function EventOverlay({ event, isOpen, onClose, onRSVP }: EventOverlayPro
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+            className="native-overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -55,16 +55,16 @@ export function EventOverlay({ event, isOpen, onClose, onRSVP }: EventOverlayPro
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", damping: 20, stiffness: 300 }}
           >
-            <div className="glass-card w-full max-w-lg max-h-[80vh] overflow-hidden">
+            <div className="glass-card native-modal w-full max-w-lg max-h-[85vh] overflow-hidden">
               {/* Header with close button */}
               <div className="relative">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={onClose}
-                  className="absolute top-4 right-4 z-10 bg-black/20 hover:bg-black/40 text-white rounded-full w-8 h-8 p-0"
+                  className="absolute top-6 right-6 z-10 bg-black/30 hover:bg-black/50 text-white rounded-full w-10 h-10 p-0 native-button backdrop-blur-sm"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-5 h-5" />
                 </Button>
 
                 {/* Event Image */}
@@ -106,7 +106,7 @@ export function EventOverlay({ event, isOpen, onClose, onRSVP }: EventOverlayPro
               </div>
 
               {/* Scrollable Content */}
-              <div className="max-h-[50vh] overflow-y-auto p-6 space-y-6">
+              <div className="max-h-[50vh] overflow-y-auto mobile-scroll p-6 space-y-6">
                 {/* Event Details */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -203,7 +203,7 @@ export function EventOverlay({ event, isOpen, onClose, onRSVP }: EventOverlayPro
                   variant="outline"
                   onClick={() => handleRSVP('interested')}
                   className={cn(
-                    "flex-1 interactive-enhanced",
+                    "flex-1 interactive-enhanced native-button",
                     event.rsvpStatus === 'interested' && "bg-secondary/20 border-secondary text-secondary"
                   )}
                 >
@@ -218,7 +218,7 @@ export function EventOverlay({ event, isOpen, onClose, onRSVP }: EventOverlayPro
                   size="sm"
                   onClick={() => handleRSVP('rsvp')}
                   className={cn(
-                    "flex-1 interactive-enhanced",
+                    "flex-1 interactive-enhanced native-button",
                     event.rsvpStatus === 'rsvp' 
                       ? "bg-primary text-primary-foreground pulse-glow" 
                       : "bg-gradient-primary"

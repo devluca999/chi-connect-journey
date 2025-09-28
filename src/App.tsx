@@ -16,6 +16,8 @@ const App = () => {
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState<boolean | null>(null);
 
   useEffect(() => {
+    // Always show splash screen on every load
+    setShowSplash(true);
     const completed = localStorage.getItem('chiconnect-onboarding-completed');
     setHasCompletedOnboarding(completed === 'true');
   }, []);
@@ -49,7 +51,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <div className="min-h-screen bg-background">
+            <div className="mobile-app bg-background">
               {!hasCompletedOnboarding ? (
                 <OnboardingFlow 
                   onComplete={() => {
