@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { Home, Calendar, Clock, Users, User } from "lucide-react";
+import { Home, Calendar, Clock, Users, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -8,7 +8,7 @@ const navItems = [
   { path: "/feed", icon: Calendar, label: "Feed" },
   { path: "/timeline", icon: Clock, label: "Timeline" },
   { path: "/connections", icon: Users, label: "Connections" },
-  { path: "/profile", icon: User, label: "Profile" },
+  { path: "/settings", icon: Settings, label: "Settings" },
 ];
 
 export function BottomNavigation() {
